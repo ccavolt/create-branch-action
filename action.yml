@@ -41,7 +41,7 @@ runs:
   using: 'composite'
   steps:
     - uses: actions/setup-node@v3
-    - run: yarn add global neonctl@v1.13.0
+    - run: yarn add global neonctl@v1.17.0
       shell: bash
     - name: Create new Neon branch
       env:
@@ -50,9 +50,9 @@ runs:
       shell: bash
       run: |
         yarn -s neonctl branches create \
-          --project.id ${{ inputs.project_id }} \
-          --branch.name ${{ inputs.branch_name }} \
-          --endpoint.type read_write -o json \
+          --project-id ${{ inputs.project_id }} \
+          --name ${{ inputs.branch_name }} \
+          --type read_write -o json \
           2> branch_err > branch_out || true
 
         echo "branch create result:\n" >> debug.log
