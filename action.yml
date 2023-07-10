@@ -61,15 +61,15 @@ runs:
         if [[ $(cat branch_err) == *"already exists"* ]]; then
 
         # Get the branch id by its name. We list all branches and filter by name
-        branch_id=$(yarn -s neonctl branches list --project.id ${{ inputs.project_id }} -o json \
+        branch_id=$(yarn -s neonctl branches list --project-id ${{ inputs.project_id }} -o json \
             | jq -c '.[] | select(.name | contains("'${{ inputs.branch_name }}'")) .id' \
             | jq -r)
 
         echo "branch exists, branch id: ${branch_id}" >> debug.log
 
         echo "branch_id=${branch_id}" >> $GITHUB_OUTPUT
-        echo "db_url=$(yarn -s neonctl cs ${branch_id} --project.id ${{ inputs.project_id }} --role.name ${{ inputs.username }} --database.name ${{ inputs.database }} --prisma ${{ inputs.prisma }})" >> $GITHUB_OUTPUT
-        echo "db_url_with_pooler=$(yarn -s neonctl cs ${branch_id} --project.id ${{ inputs.project_id }} --role.name ${{ inputs.username }} --database.name ${{ inputs.database }} --pooled --prisma ${{ inputs.prisma }})" >> $GITHUB_OUTPUT
+        echo "db_url=$(yarn -s neonctl cs ${branch_id} --project-id ${{ inputs.project_id }} --role-name ${{ inputs.username }} --database-name ${{ inputs.database }} --prisma ${{ inputs.prisma }})" >> $GITHUB_OUTPUT
+        echo "db_url_with_pooler=$(yarn -s neonctl cs ${branch_id} --project-id ${{ inputs.project_id }} --role-name ${{ inputs.username }} --database-name ${{ inputs.database }} --pooled --prisma ${{ inputs.prisma }})" >> $GITHUB_OUTPUT
 
         else
           branch_id=$(cat branch_out | jq --raw-output '.branch.id')
@@ -79,8 +79,8 @@ runs:
 
           echo "branch_id=${branch_id}" >> $GITHUB_OUTPUT
           echo "host=${host}" >> $GITHUB_OUTPUT
-          echo "db_url=$(yarn -s neonctl cs ${branch_id} --project.id ${{ inputs.project_id }} --role.name ${{ inputs.username }} --database.name ${{ inputs.database }} --prisma ${{ inputs.prisma }})" >> $GITHUB_OUTPUT
-          echo "db_url_with_pooler=$(yarn -s neonctl cs ${branch_id} --project.id ${{ inputs.project_id }} --role.name ${{ inputs.username }} --database.name ${{ inputs.database }} --pooled --prisma ${{ inputs.prisma }})" >> $GITHUB_OUTPUT
+          echo "db_url=$(yarn -s neonctl cs ${branch_id} --project-id ${{ inputs.project_id }} --role-name ${{ inputs.username }} --database-name ${{ inputs.database }} --prisma ${{ inputs.prisma }})" >> $GITHUB_OUTPUT
+          echo "db_url_with_pooler=$(yarn -s neonctl cs ${branch_id} --project-id ${{ inputs.project_id }} --role-name ${{ inputs.username }} --database-name ${{ inputs.database }} --pooled --prisma ${{ inputs.prisma }})" >> $GITHUB_OUTPUT
         fi
     - uses: actions/upload-artifact@v3
       if: always()
