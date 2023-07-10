@@ -73,7 +73,7 @@ runs:
 
         else
           branch_id=$(cat branch_out | jq --raw-output '.branch.id')
-          host=$(cat branch_out | jq --raw-output '.endpoints.host')
+          host=$(cat branch_out | jq --raw-output '.endpoints[0].host')
 
           echo "branch doesn't exist, branch id: ${branch_id}" >> debug.log
 
